@@ -41,15 +41,10 @@ abstract contract StakedRewardsPool is
 
 	constructor(
 		IERC20 rewardsToken,
-		uint8 rewardsTokenDecimals,
 		IERC20 stakingToken,
 		uint8 stakingTokenDecimals
 	) Ownable() {
 		// Prevent overflow, though 76 would create a safe but unusable contract
-		require(
-			rewardsTokenDecimals < 77,
-			"StakedRewardsPool: reward token has far too many decimals"
-		);
 		require(
 			stakingTokenDecimals < 77,
 			"StakedRewardsPool: staking token has far too many decimals"

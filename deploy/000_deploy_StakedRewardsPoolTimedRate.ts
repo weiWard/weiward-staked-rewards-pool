@@ -16,7 +16,7 @@ const func: DeployFunction = async function (bre: BuidlerRuntimeEnvironment) {
 	await deploy(contractName, {
 		from: deployer,
 		log: true,
-		args: [rewardsTokenAddress, 18, stakingTokenAddress, 18, 0, 10],
+		args: [rewardsTokenAddress, stakingTokenAddress, 18, 0, 10],
 		// deterministicDeployment: true,
 	});
 };

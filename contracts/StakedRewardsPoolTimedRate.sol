@@ -40,19 +40,11 @@ contract StakedRewardsPoolTimedRate is
 
 	constructor(
 		IERC20 rewardsToken,
-		uint8 rewardsTokenDecimals,
 		IERC20 stakingToken,
 		uint8 stakingTokenDecimals,
 		uint256 periodStartTime,
 		uint256 periodEndTime
-	)
-		StakedRewardsPool(
-			rewardsToken,
-			rewardsTokenDecimals,
-			stakingToken,
-			stakingTokenDecimals
-		)
-	{
+	) StakedRewardsPool(rewardsToken, stakingToken, stakingTokenDecimals) {
 		_periodStartTime = periodStartTime;
 		_periodEndTime = periodEndTime;
 	}

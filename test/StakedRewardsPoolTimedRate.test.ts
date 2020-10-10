@@ -16,7 +16,6 @@ describe(contractName, () => {
 		const factory = await ethers.getContractFactory(contractName);
 		const contract = await factory.deploy(
 			rewardsTokenAddress,
-			18,
 			stakingTokenAddress,
 			18,
 			0,
