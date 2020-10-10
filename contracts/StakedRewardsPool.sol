@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.7.0;
 
-import "@openzeppelin/contracts/access/AccessControl.sol";
+import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/GSN/Context.sol";
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/contracts/utils/Pausable.sol";
@@ -14,22 +14,12 @@ import "./interfaces/IStakedRewardsPool.sol";
 abstract contract StakedRewardsPool is
 	Context,
 	ReentrancyGuard,
-	AccessControl,
+	Ownable,
 	Pausable,
 	IStakedRewardsPool
 {
 	using SafeERC20 for IERC20;
 	using SafeMath for uint256;
-
-	/* Immutable Public State */
-
-	bytes32 public constant PAUSER_ADMIN_ROLE = keccak256("PAUSER_ADMIN_ROLE");
-	bytes32 public constant PAUSER_ROLE = keccak256("PAUSER_ROLE");
-
-	bytes32 public constant RECOVERY_ADMIN_ROLE = keccak256(
-		"RECOVERY_ADMIN_ROLE"
-	);
-	bytes32 public constant RECOVERY_ROLE = keccak256("RECOVERY_ROLE");
 
 	/* Mutable Internal State */
 
@@ -54,7 +44,7 @@ abstract contract StakedRewardsPool is
 		uint8 rewardsTokenDecimals,
 		IERC20 stakingToken,
 		uint8 stakingTokenDecimals
-	) {
+	) Ownable() {
 		// Prevent overflow, though 76 would create a safe but unusable contract
 		require(
 			rewardsTokenDecimals < 77,
@@ -70,16 +60,6 @@ abstract contract StakedRewardsPool is
 		_stakingToken = stakingToken;
 		_stakingTokenDecimals = stakingTokenDecimals;
 		_stakingTokenBase = 10**stakingTokenDecimals;
-
-		_setupRole(DEFAULT_ADMIN_ROLE, _msgSender());
-		// Setup pauser roles
-		_setRoleAdmin(PAUSER_ROLE, PAUSER_ADMIN_ROLE);
-		_setupRole(PAUSER_ADMIN_ROLE, _msgSender());
-		_setupRole(PAUSER_ROLE, _msgSender());
-		// Setup unsupported token recovery roles
-		_setRoleAdmin(RECOVERY_ROLE, RECOVERY_ADMIN_ROLE);
-		_setupRole(RECOVERY_ADMIN_ROLE, _msgSender());
-		_setupRole(RECOVERY_ROLE, _msgSender());
 	}
 
 	/* Public Views */
@@ -121,11 +101,7 @@ abstract contract StakedRewardsPool is
 		_getReward();
 	}
 
-	function pause() public override {
-		require(
-			hasRole(PAUSER_ROLE, _msgSender()),
-			"StakedRewardsPool: must have pauser role to pause"
-		);
+	function pause() public override onlyOwner {
 		_pause();
 	}
 
@@ -135,11 +111,7 @@ abstract contract StakedRewardsPool is
 		IERC20 token,
 		address to,
 		uint256 amount
-	) public override {
-		require(
-			hasRole(RECOVERY_ROLE, _msgSender()),
-			"StakedRewardsPool: must have recovery role to recover tokens"
-		);
+	) public override onlyOwner {
 		_recoverUnsupportedERC20(token, to, amount);
 	}
 
@@ -147,11 +119,7 @@ abstract contract StakedRewardsPool is
 		_stakeFrom(_msgSender(), amount);
 	}
 
-	function unpause() public override {
-		require(
-			hasRole(PAUSER_ROLE, _msgSender()),
-			"StakedRewardsPool: must have pauser role to unpause"
-		);
+	function unpause() public override onlyOwner {
 		_unpause();
 	}
 

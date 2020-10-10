@@ -17,18 +17,6 @@ contract StakedRewardsPoolTimedRate is
 {
 	using SafeMath for uint256;
 
-	/* Immutable Public State */
-
-	bytes32 public constant DISTRIBUTOR_ADMIN_ROLE = keccak256(
-		"DISTRIBUTOR_ADMIN_ROLE"
-	);
-	bytes32 public constant DISTRIBUTOR_ROLE = keccak256("DISTRIBUTOR_ROLE");
-
-	bytes32 public constant PERIOD_SETTER_ADMIN_ROLE = keccak256(
-		"PERIOD_SETTER_ADMIN_ROLE"
-	);
-	bytes32 public constant PERIOD_SETTER_ROLE = keccak256("PERIOD_SETTER_ROLE");
-
 	/* Mutable Private State */
 
 	uint256 private _accruedRewardPerToken;
@@ -67,16 +55,6 @@ contract StakedRewardsPoolTimedRate is
 	{
 		_periodStartTime = periodStartTime;
 		_periodEndTime = periodEndTime;
-
-		// Setup distributor roles
-		_setRoleAdmin(DISTRIBUTOR_ROLE, DISTRIBUTOR_ADMIN_ROLE);
-		_setupRole(DISTRIBUTOR_ADMIN_ROLE, _msgSender());
-		_setupRole(DISTRIBUTOR_ROLE, _msgSender());
-
-		// Setup set staking period roles
-		_setRoleAdmin(PERIOD_SETTER_ROLE, PERIOD_SETTER_ADMIN_ROLE);
-		_setupRole(PERIOD_SETTER_ADMIN_ROLE, _msgSender());
-		_setupRole(PERIOD_SETTER_ROLE, _msgSender());
 	}
 
 	/* Public Views */
@@ -164,19 +142,16 @@ contract StakedRewardsPoolTimedRate is
 		public
 		override
 		nonReentrant
+		onlyOwner
 	{
-		require(
-			hasRole(DISTRIBUTOR_ROLE, msg.sender),
-			"StakedRewardsPoolTimedRate: must have distributor role to add to the rewards allocation"
-		);
 		_addToRewardsAllocation(amount);
 	}
 
-	function setNewPeriod(uint256 startTime, uint256 endTime) public override {
-		require(
-			hasRole(PERIOD_SETTER_ROLE, msg.sender),
-			"StakedRewardsPoolTimedRate: must have period setter role to set a new period"
-		);
+	function setNewPeriod(uint256 startTime, uint256 endTime)
+		public
+		override
+		onlyOwner
+	{
 		require(
 			!hasStarted() || hasEnded(),
 			"StakedRewardsPoolTimedRate: cannot change an ongoing staking period"
