@@ -40,7 +40,7 @@ npm run export:all
 After installing dependencies, you may run all deployments (NOT RECOMMENDED) or
 you may deploy specific contracts by specifying tags.
 
-Copy [.env.example](.env.example) to `.env` and replace the fields with your credentials. See the section on [.env Variables](.env-Variables) for a description of each variable.
+Copy [.env.example](.env.example) to `.env` and replace the fields with your credentials. See the section on [.env Variables](#env-variables) for a description of each variable.
 
 Currently, you may deploy contracts using either a local node or [Infura](https://infura.io/).
 
@@ -86,7 +86,7 @@ npx buidler deploy --network http://127.0.0.1:8545
 
 #### yLandWETHUNIV2Pool
 
-[Yearn Land](yland.finance) uses this to offer farming yLand by staking a liquidity pair. It is a rewards pool for staking yLand-WETH UNI-V2 pair tokens and earning yLand as a reward over a defined period of time.
+[Yearn Land](https://yland.finance/) uses this to offer farming yLand by staking a liquidity pair. It is a rewards pool for staking yLand-WETH UNI-V2 pair tokens and earning yLand as a reward over a defined period of time.
 
 Once yLand is deposited to the contract, an administrator may update the contract to increase the reward schedule for the current or future staking period.
 
