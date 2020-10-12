@@ -19,7 +19,7 @@
     "lint:sol": "solhint contracts/**/*.sol",
     "preinstall": "npx only-allow pnpm",
 		"test": "buidler test",
-		"verify": "buidler etherscan-verify",
+		"verify": "buidler etherscan-verify --solc-input",
     "clean": "shx rm -rf build",
     "clean:dev": "rm -rf build node_modules"
   },
