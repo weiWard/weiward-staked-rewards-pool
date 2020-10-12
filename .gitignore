@@ -3,11 +3,17 @@
 
 # testing
 /coverage
+deployments/buidlerevm/
+deployments/ganache/
+deployments/localhost/
 
 # production
 /public/js
 /bundle
 /build
+
+# secrets
+.env
 
 # misc
 .DS_Store

@@ -4,13 +4,14 @@ import {
 } from '@nomiclabs/buidler/types';
 import { hexZeroPad } from 'ethers/lib/utils';
 
+const contractName = 'StakedRewardsPoolTimedRate';
+
 const func: DeployFunction = async function (bre: BuidlerRuntimeEnvironment) {
 	const { deployments, getNamedAccounts } = bre;
 	const { deploy } = deployments;
 
 	const { deployer } = await getNamedAccounts();
 
-	const contractName = 'StakedRewardsPoolTimedRate';
 	const rewardsTokenAddress = hexZeroPad('0x0', 20);
 	const stakingTokenAddress = hexZeroPad('0x0', 20);
 	await deploy(contractName, {
@@ -22,3 +23,4 @@ const func: DeployFunction = async function (bre: BuidlerRuntimeEnvironment) {
 };
 
 export default func;
+func.tags = [contractName];

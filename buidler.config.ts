@@ -1,5 +1,9 @@
 import { BuidlerConfig, usePlugin } from '@nomiclabs/buidler/config';
 import { Wallet } from '@ethersproject/wallet';
+import dotenv from 'dotenv';
+import { HDAccountsConfig } from '@nomiclabs/buidler/types';
+
+dotenv.config();
 
 // No need for this line since buidler-waffle already does it
 // usePlugin("@nomiclabs/buidler-ethers");
@@ -22,6 +26,16 @@ for (let i = 0; i < buidlerEvmAccounts.length; i++) {
 	};
 }
 
+// Read environment to setup accounts for deploying
+const mnemonic = process.env.MNEMONIC ?? insecure_mnemonic;
+const accounts: HDAccountsConfig = { mnemonic };
+const deployer = process.env.DEPLOYER_ACCOUNT_INDEX
+	? parseInt(process.env.DEPLOYER_ACCOUNT_INDEX, 10)
+	: 0;
+const tester = process.env.TESTER_ACCOUNT_INDEX
+	? parseInt(process.env.TESTER_ACCOUNT_INDEX, 10)
+	: 1;
+
 const config: BuidlerConfig = {
 	defaultNetwork: 'buidlerevm',
 	networks: {
@@ -35,6 +49,30 @@ const config: BuidlerConfig = {
 		ganache: {
 			live: false,
 			url: 'http://127.0.0.1:7545',
+		},
+		production: {
+			url: 'http://127.0.0.1:8545',
+			accounts,
+		},
+		goerli_infura: {
+			url: `https://goerli.infura.io/v3/${process.env.INFURA_TOKEN}`,
+			accounts,
+		},
+		kovan_infura: {
+			url: `https://kovan.infura.io/v3/${process.env.INFURA_TOKEN}`,
+			accounts,
+		},
+		rinkeby_infura: {
+			url: `https://rinkeby.infura.io/v3/${process.env.INFURA_TOKEN}`,
+			accounts,
+		},
+		ropsten_infura: {
+			url: `https://ropsten.infura.io/v3/${process.env.INFURA_TOKEN}`,
+			accounts,
+		},
+		mainnet_infura: {
+			url: `https://mainnet.infura.io/v3/${process.env.INFURA_TOKEN}`,
+			accounts,
 		},
 	},
 	solc: {
@@ -52,8 +90,10 @@ const config: BuidlerConfig = {
 	},
 	// buidler-deploy
 	namedAccounts: {
-		deployer: 0, // deployer uses first account by default
-		tester: 1,
+		// deployer uses first account by default
+		deployer,
+		// tests use this account when the deployer is undesirable
+		tester,
 	},
 };
 
