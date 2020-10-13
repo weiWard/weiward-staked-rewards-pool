@@ -7,9 +7,9 @@
   "private": true,
   "scripts": {
     "compile": "buidler compile",
-		"deploy": "buidler deploy",
-		"export": "buidler export --export build/abi.json",
-		"export:all": "buidler export --export-all build/abi.json",
+    "deploy": "buidler deploy",
+    "export": "buidler export --export build/abi.json",
+    "export:all": "buidler export --export-all build/abi.json",
     "gen-types": "run-p gen-types:*",
     "gen-types:ethers": "typechain --target=ethers-v5 --outDir=build/types/ethers \"build/artifacts/*.json\"",
     "gen-types:web3": "typechain --target=web3-v1 --outDir=build/types/web3 \"build/artifacts/*.json\"",
@@ -18,8 +18,8 @@
     "lint:eslint": "eslint \"*/**/*.{js,jsx,ts,tsx}\"",
     "lint:sol": "solhint contracts/**/*.sol",
     "preinstall": "npx only-allow pnpm",
-		"test": "buidler test",
-		"verify": "buidler etherscan-verify --solc-input",
+    "test": "buidler test",
+    "verify": "buidler etherscan-verify --solc-input",
     "clean": "shx rm -rf build",
     "clean:dev": "rm -rf build node_modules"
   },
@@ -37,7 +37,11 @@
     ]
   },
   "devDependencies": {
+    "@ethersproject/abi": "^5.0.7",
     "@ethersproject/bignumber": "^5.0.8",
+    "@ethersproject/bytes": "^5.0.5",
+    "@ethersproject/contracts": "^5.0.5",
+    "@ethersproject/providers": "^5.0.12",
     "@ethersproject/units": "^5.0.6",
     "@ethersproject/wallet": "^5.0.5",
     "@nomiclabs/buidler": "^1.4.7",

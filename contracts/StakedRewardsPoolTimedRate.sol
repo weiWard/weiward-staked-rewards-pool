@@ -172,6 +172,7 @@ contract StakedRewardsPoolTimedRate is
 	// If called before or after a staking period, the amount will only be
 	// applied to the next staking period.
 	function _addToRewardsAllocation(uint256 amount) internal {
+		// TODO Require that amount <= available rewards.
 		_updateAccrual();
 
 		// Update reward rate based on remaining time

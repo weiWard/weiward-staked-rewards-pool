@@ -1,5 +1,9 @@
 devDependencies:
+  '@ethersproject/abi': 5.0.7
   '@ethersproject/bignumber': 5.0.8
+  '@ethersproject/bytes': 5.0.5
+  '@ethersproject/contracts': 5.0.5
+  '@ethersproject/providers': 5.0.12
   '@ethersproject/units': 5.0.6
   '@ethersproject/wallet': 5.0.5
   '@nomiclabs/buidler': 1.4.7
@@ -9935,7 +9939,11 @@ packages:
       tarball: 'https://codeload.github.com/ethereumjs/ethereumjs-abi/tar.gz/1ce6a1d64235fabe2aaf827fd606def55693508f'
     version: 0.6.8
 specifiers:
+  '@ethersproject/abi': ^5.0.7
   '@ethersproject/bignumber': ^5.0.8
+  '@ethersproject/bytes': ^5.0.5
+  '@ethersproject/contracts': ^5.0.5
+  '@ethersproject/providers': ^5.0.12
   '@ethersproject/units': ^5.0.6
   '@ethersproject/wallet': ^5.0.5
   '@nomiclabs/buidler': ^1.4.7
