@@ -20,6 +20,8 @@ interface IStakedRewardsPoolTimedRate is IStakedRewardsPool {
 
 	function periodStartTime() external view returns (uint256);
 
+	function rewardRate() external view returns (uint256);
+
 	function timeRemainingInPeriod() external view returns (uint256);
 
 	/* Mutators */

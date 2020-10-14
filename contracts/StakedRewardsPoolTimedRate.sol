@@ -115,6 +115,10 @@ contract StakedRewardsPoolTimedRate is
 		return _periodStartTime;
 	}
 
+	function rewardRate() public view returns (uint256) {
+		return _rewardRate;
+	}
+
 	function timeRemainingInPeriod()
 		public
 		view
