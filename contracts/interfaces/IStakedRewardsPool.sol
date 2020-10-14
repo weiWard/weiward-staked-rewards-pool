@@ -24,6 +24,8 @@ interface IStakedRewardsPool {
 
 	function getReward() external;
 
+	function getRewardExact(uint256 amount) external;
+
 	function pause() external;
 
 	function recoverUnsupportedERC20(

@@ -1051,6 +1051,42 @@ describe(contractName, function () {
 						await contract.addToRewardsAllocation(amount);
 					});
 
+					describe('getRewardExact', function () {
+						it('after period', async function () {
+							// fast-forward
+							clock.setSystemTime((endTime + 1) * 1000);
+
+							// Estimate reward
+							const deployerExpected = amount.div(2).div(2);
+							const testerExpected = amount.div(2).sub(500);
+
+							// Get deployer reward
+							await contract.getRewardExact(deployerExpected);
+							const balance = await rewardsToken.balanceOf(deployer);
+							// Account for rounding error
+							const rewards = balance.sub(newBalance);
+							expect(rewards).to.eq(deployerExpected);
+
+							// Get tester reward
+							await testerContract.getReward();
+							const testerBalance = await rewardsToken.balanceOf(tester);
+							expect(testerBalance).to.eq(testerExpected);
+						});
+
+						it('should emit reward paid', async function () {
+							// fast-forward
+							clock.setSystemTime((endTime + 1) * 1000);
+
+							// Estimate reward
+							const deployerExpected = amount.div(2).div(2);
+
+							// Get deployer reward
+							await expect(contract.getRewardExact(deployerExpected))
+								.to.emit(contract, 'RewardPaid')
+								.withArgs(deployer, deployerExpected);
+						});
+					});
+
 					it('during period', async function () {
 						const time = startTime + duration / 2;
 

@@ -96,6 +96,10 @@ abstract contract StakedRewardsPool is
 		_getReward();
 	}
 
+	function getRewardExact(uint256 amount) public override nonReentrant {
+		_getRewardExact(amount);
+	}
+
 	function pause() public override onlyOwner {
 		_pause();
 	}
@@ -151,6 +155,18 @@ abstract contract StakedRewardsPool is
 			_rewardsToken.safeTransfer(_msgSender(), reward);
 			emit RewardPaid(_msgSender(), reward);
 		}
+	}
+
+	function _getRewardExact(uint256 amount) internal virtual {
+		_updateRewardFor(_msgSender());
+		uint256 reward = _rewards[_msgSender()];
+		require(
+			amount <= reward,
+			"StakedRewardsPool: can not redeem more rewards than you have earned"
+		);
+		_rewards[_msgSender()] = reward.sub(amount);
+		_rewardsToken.safeTransfer(_msgSender(), amount);
+		emit RewardPaid(_msgSender(), amount);
 	}
 
 	function _recoverUnsupportedERC20(
