@@ -129,7 +129,7 @@ contract StakedRewardsPoolTimedRate is
 		return _periodStartTime;
 	}
 
-	function rewardRate() public view returns (uint256) {
+	function rewardRate() public view override returns (uint256) {
 		return _rewardRate;
 	}
 
