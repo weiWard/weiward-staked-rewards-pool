@@ -178,6 +178,18 @@ contract StakedRewardsPoolTimedRate is
 		);
 		// Ensure that rewards are fully granted before changing the period.
 		_updateAccrual();
+
+		if (hasEnded()) {
+			// Reset reward rate if this a brand new period (not changing one)
+			// Note that you MUST addToRewardsAllocation again if you forgot to call
+			// this after the previous period ended but before adding rewards.
+			_rewardRate = 0;
+		} else {
+			// Update reward rate for new duration
+			uint256 totalReward = _rewardRate.mul(periodDuration());
+			_rewardRate = totalReward.div(endTime.sub(startTime));
+		}
+
 		_periodStartTime = startTime;
 		_periodEndTime = endTime;
 	}
