@@ -59,7 +59,21 @@ contract StakedRewardsPoolTimedRate is
 			return _accruedRewardPerToken;
 		}
 
-		uint256 dt = lastTimeRewardApplicable().sub(_lastUpdateTime);
+		uint256 lastUpdateTime = _lastUpdateTime;
+		uint256 lastTimeApplicable = lastTimeRewardApplicable();
+
+		// Allow staking at any time without earning undue rewards
+		// The following is guaranteed if the next `if` is true:
+		// lastUpdateTime == previous _periodEndTime || lastUpdateTime == 0
+		if (_periodStartTime > lastUpdateTime) {
+			// Prevent underflow
+			if (_periodStartTime > lastTimeApplicable) {
+				return _accruedRewardPerToken;
+			}
+			lastUpdateTime = _periodStartTime;
+		}
+
+		uint256 dt = lastTimeApplicable.sub(lastUpdateTime);
 		if (dt == 0) {
 			return _accruedRewardPerToken;
 		}
