@@ -33,6 +33,8 @@ npm run verify -- --network mainnet
 npm run export -- --network mainnet
 # Export ABI and addresses for deployed contracts across all networks to build/abi.json.
 npm run export:all
+# Flatten
+npx truffle-flattener <file> > flattened/<file>
 ```
 
 ## Deploy
