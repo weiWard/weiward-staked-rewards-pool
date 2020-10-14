@@ -150,6 +150,12 @@ describe(contractName, function () {
 		});
 
 		describe('setNewPeriod', function () {
+			it('should emit NewPeriodSet', async function () {
+				await expect(contract.setNewPeriod(startTime, endTime))
+					.to.emit(contract, 'NewPeriodSet')
+					.withArgs(startTime, endTime);
+			});
+
 			it('should update periodStartTime', async function () {
 				await contract.setNewPeriod(startTime, endTime);
 				expect(await contract.periodStartTime()).to.eq(startTime);

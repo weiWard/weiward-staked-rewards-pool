@@ -192,6 +192,8 @@ contract StakedRewardsPoolTimedRate is
 
 		_periodStartTime = startTime;
 		_periodEndTime = endTime;
+
+		emit NewPeriodSet(startTime, endTime);
 	}
 
 	/* Internal Mutators */

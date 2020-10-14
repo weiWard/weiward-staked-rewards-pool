@@ -33,4 +33,5 @@ interface IStakedRewardsPoolTimedRate is IStakedRewardsPool {
 	/* Events */
 
 	event RewardAdded(uint256 amount);
+	event NewPeriodSet(uint256 startTIme, uint256 endTime);
 }
