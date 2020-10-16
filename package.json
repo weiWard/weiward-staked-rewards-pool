@@ -1,7 +1,7 @@
 {
   "name": "@weiward/staked-rewards-pool",
   "version": "1.0.0",
-  "description": "Solidity contracts for rewarding liquidity providers.",
+  "description": "Solidity contracts for rewarding stakers.",
   "author": "Ben Kostreva",
   "license": "MIT",
   "private": true,

@@ -1,8 +1,40 @@
 # weiward-staked-rewards-pool
 
-## Prerequisites
+[![license](https://img.shields.io/github/license/weiWard/weiward-staked-rewards-pool.svg)](LICENSE)
 
-1. Install npm and pnpm, preferably using nvm or nvm-windows.
+Solidity contracts for rewarding stakers.
+
+Currently includes:
+
+* Abstract base contract for staking one token and rewarding another.
+* Timed rate contract for releasing rewards over a period of time. May be reused for multiple rewards periods.
+* Uses [OpenZeppelin Contracts](https://github.com/OpenZeppelin/openzeppelin-contracts) for common paradigms.
+
+## Table of Contents
+
+- [Install](#install)
+- [Usage](#usage)
+	- [Deploy](#deploy)
+	- [.env Variables](#env-variables)
+	- [Available Networks](#available-networks)
+	- [Contract Tags](#contract-tags)
+		- [yLandWETHUNIV2Pool](#ylandwethuniv2pool)
+- [Out in the Wild](#out-in-the-wild)
+- [Contributing](#contributing)
+- [License](#license)
+
+## Install
+
+This repository requires some knowledge of:
+
+* [Solidity](https://solidity.readthedocs.io/en/latest/)
+* [npm](https://docs.npmjs.com/)
+* [TypeScript](https://www.typescriptlang.org/) (for tests)
+* [buidler](https://buidler.dev/)
+
+1. Install npm and [pnpm](https://pnpm.js.org/), preferably using
+[nvm](https://github.com/nvm-sh/nvm) or
+[nvm-windows](https://github.com/coreybutler/nvm-windows).
 
 	```bash
 	nvm install 12.19.0
@@ -14,17 +46,23 @@
 	pnpm --version
 	```
 
-## Build
+2. Install dependencies
+
+	```bash
+	pnpm install
+	```
+
+## Usage
 
 ```bash
-# Install dependencies
-pnpm install
 # Lint
 npm run lint
 # Compile contracts
 npm run compile
-# Generate TypeScript contract interfaces from ABI's
+# Generate TypeScript contract interfaces from ABI's (required for tests)
 npm run gen-types
+# Run tests
+npm run test
 # Deploy to buidlerevm
 npm run deploy
 # Verify on Etherscan
@@ -33,11 +71,11 @@ npm run verify -- --network mainnet
 npm run export -- --network mainnet
 # Export ABI and addresses for deployed contracts across all networks to build/abi.json.
 npm run export:all
-# Flatten
+# Flatten a file
 npx truffle-flattener <file> > flattened/<file>
 ```
 
-## Deploy
+### Deploy
 
 After installing dependencies, you may run all deployments (NOT RECOMMENDED) or
 you may deploy specific contracts by specifying tags.
@@ -88,11 +126,7 @@ npx buidler deploy --network http://127.0.0.1:8545
 
 #### yLandWETHUNIV2Pool
 
-[Yearn Land](https://yland.finance/) uses this to offer farming yLand by staking a liquidity pair. It is a rewards pool for staking yLand-WETH UNI-V2 pair tokens and earning yLand as a reward over a defined period of time.
-
-Once yLand is deposited to the contract, an administrator may update the contract to increase the reward schedule for the current or future staking period.
-
-contract: [StakedRewardsPoolTimedRate](contracts/StakedRewardsPoolTimedRate.sol)
+contract: [StakedRewardsPoolTimedRate.sol](contracts/StakedRewardsPoolTimedRate.sol)
 
 ```bash
 # Deploy using a local node
@@ -102,3 +136,24 @@ npx buidler deploy --network ropsten_infura --tags yLandWETHUNIV2Pool
 # Deploy to mainnet using Infura
 npx buidler deploy --network mainnet_infura --tags yLandWETHUNIV2Pool
 ```
+
+## Out in the Wild
+
+_Disclaimer: This document does not serve to endorse or promote any project referenced below, whether expressly, by implication, estoppel or otherwise. This document does not serve as permission to use the name of the copyright holder nor the names of its contributors to endorse or promote any projects referenced below._
+
+### yLand Liquidity Farming
+As of October 16th, 2020, Yearn Land is using `StakingRewardsPoolTimedRate` (the `yLandWETHUNIV2Pool` deployment tag) to offer farming yLand by staking a Uniswap liquidity pair. It is a rewards pool for staking yLand-WETH UNI-V2 pair tokens and earning yLand as a reward over a defined period of time. Once yLand is deposited to the contract, an administrator may update the contract to increase the reward schedule for the current or future staking period.
+
+## Contributing
+
+1. [Fork it](https://github.com/weiWard/weiward-staked-rewards-pool/fork)
+2. Create your feature or fix branch (`git checkout -b feature/fooBar`)
+3. Commit your changes (`git commit -am 'Add some fooBar'`)
+4. Push to the branch (`git push origin feature/fooBar`)
+5. Create a new Pull Request
+
+## License
+
+`weiward-staked-rewards-pool` is licensed under the terms of the
+[MIT License](https://opensource.org/licenses/MIT). See
+[LICENSE](LICENSE) for more information.
